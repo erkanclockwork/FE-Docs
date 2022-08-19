@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proje Kurulumu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.15.3/css/uikit.min.css" integrity="sha512-M4FXbj4hcT9ZuoPeOPUqeT6Gzy17JqCDqQYhm12j/uZW8NGcULfYOoDrSH16aK345Y+tH1MERHQuGlM4A+kqVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.15.3/js/uikit.min.js" integrity="sha512-U/ybIDY+RmaiZlaP0q87z4WzXIqVRN2poSFXPDsVr1gYsVUSbwX9ro1RWN+7+SiNlUDTUkODbVCmqTBfo+nnqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <main>
+        <section class="uk-section">
+            <div class="uk-container">
+                <h1>Proje Kurulumu</h1>
+                <p>Proje için repository açıldıktan ve içine Umbraco kurulduktan sonra Front-end Developer olarak HTML sayfaların hazırlanması aşamasından önce yapmanız gereken kurulumlar aşağıda belirtilmiştir.</p>
+            </div>
+        </section>
+        <section class="uk-section uk-padding-remove-top">
+            <div class="uk-container">
+                <h2>Projeye UIKit'in Eklenmesi</h2>
+                <p>Umbraco versiyon 9'dan itibaren css ve js dosyalarını wwwroot dizini altında okuyor. Bu yüzden projede terminali açın ve</p>
+                    <code>
+                       cd Clockwork.Umbraco.Client/wwwroot
+                    </code>
+                <p>komutu ile ilgili dizine gidin. Ardından;</p>
+                    <code class="language-html">
+                        yarn add uikit
+                    </code>
+                <p>Komutunu çalıştırın. UIKit, <strong>node_modules</strong> dizini altında yer alacaktır. Böylece, uikit'i projeye ekleme işlemini tamamlamış olacaksınız.</p>
+            </div>
+        </section>
+        <section class="uk-section uk-background-muted">
+            <div class="uk-container">
+                <h2>Derlenebilir CSS Oluşturulması</h2>
+                <p>wwwroot dizini altında <strong>Content</strong> isimli yeni bir klasör oluşturun.</p>
+                <p><strong>node_modules</strong> altında yer alan <strong>uikit</strong> klasörünü, yeni oluşturduğunuz <strong>Content</strong> isimli klasörünüze taşıyın.</p>
+                <p>Şimdi projeye custom uikit temasını ekleyin. Bu işlemi yapmak için terminalde;</p>
+                <code>cd clockwork.umbraco.client/wwwroot/content/uikit</code>
+                <p>ile ilgili dizine gidin.</p>
+                <code>git clone https://github.com/erkanaltinors/custom-uikit.git</code>
+                <p> ile custom uikit temasını uikit klasörü altında indirin.</p>
+                <p>Bu reponun içindeki <strong>custom</strong> klasörünü uikit dizini altına taşıyın ve custom uikit repository'sine ait klasörü silin.</p>
+                <p>uikit klasörü içindeki <strong>package.json</strong> dosyasında <strong>watch</strong> script komutunu değiştirmeniz gerekiyor. Bu komuta ait değeri;</p>
+                <code>"watch": "watch-run -i -p \"**/*.less\" yarn node build/less",</code>
+                <p>olarak değiştirin. Ardından sırasıyla;</p>
+                <p><code>yarn install</code></p>
+                <p><code>yarn compile</code></p>
+                <p><code>yarn watch</code></p>
+                <p>Custom uikit css dosyanız <strong>uikit/dist/css</strong> dizini altında oluşacaktır.</p>
+                <p class="uk-text-bold">Bu komutları yazarken işlemlerin bitmesini beklemeyi unutmayın. Örneğin uikit dependency'lerin tamamı yüklenmeden ikinci bir komut yazmayın.</p>
+                <p><strong>Layout.cshtml</strong> dosyasına custom uikit ve uikit.min.js ve uikit.icons.min.js dosyalarını ekleyin.</p>
+            </div>
+        </section>
+        <section class="uk-section">
+            <div class="uk-container">
+                <h2>NPM Scriptlerinin Eklenmesi</h2>
+                <p>Projede css derleme işlemlerini daha hızlı yapmak için, solution içinde terminalden;</p>
+                <p><code>npm init -y</code></p>
+                <p>ile solution'ın hemen altında <strong>package.json</strong> dosyasını oluşturun.</p>
+                <p>scripts key'inin altında</p>
+                <p><code>"uk-install":"cd clockwork.umbraco.client/wwwroot/content/uikit && yarn install"</code></p>
+                <p><code>"uk-watch":"cd clockwork.umbraco.client/wwwroot/content/uikit && yarn watch"</code></p>
+                <p><code>"uk-compile":"cd clockwork.umbraco.client/wwwroot/content/uikit && yarn compile"</code></p>
+                <p>komutlarını ekleyin ve kaydedin. Artık solution içinden terminali açıp ilgili komutlarla uikit css dosyalarınızdaki değişikleri izleyebilir ve ikon derleyebilirsiniz. Eğer komutun çalışmasını durdurmak isterseniz <strong>CTRL + C</strong> tuş kombinasyonunu kullanıp terminali kapatabilirsiniz.</p>
+            </div>
+        </section>
+        <section class="uk-section uk-background-muted">
+            <div class="uk-container">
+                <h2>Custom İkonların Eklenmesi ve Projede Kullanımı</h2>
+                <p><strong>uikit/custom/icons</strong> dizinine svg olarak ikonlarınızı kaydedin. Ardından;</p>
+                <p><code>npm run uk-compile</code></p>
+                <p>komutu ile ikonlarınızı derleyin.</p>
+                <p>Eklediğiniz ikonları html'de a veya span elemanlarında;</p>
+                <code>uk-icon="icon: ikon-adi"</code>
+                <p>formatında kullanabilirsiniz.</p>
+                <p>Özgün rengini alması için uk-icon yazdığınız elemana uk-preserve class'ını verebilirsiniz. Spesifik bir renk vermek isterseniz uk-icon yazılan elemana color property'si olan bir css class verebilirsiniz.</p>
+            </div>
+        </section>
+        <section class="uk-section uk-section-primary">
+            <div class="uk-container">
+                <h2>Hepsi bu kadar.</h2>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
